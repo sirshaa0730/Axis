@@ -58,12 +58,32 @@ JARVIS/
 - **Interactive 3D Earth Globe**: Multi-layered Three.js sphere with photorealistic day/night atmospheric shaders, rotating cloud layers, and geolocated hazard pins.
 - **On-Demand Scenario Drawer**: Slide-up simulation panel for running climate and hazard disruption parameter sweeps.
 
+### 4. Multi-Hazard Intelligence Analysis Workstation (`ANALYSIS` Tab)
+- **Data-Driven Visualizations Across All 5 Hazard Scenarios**:
+  - `Flood`: Inundated haor basin polygons with dynamic breathing alpha, neon cyan river network (Surma, Kushiyara, Jamuna, Padma, Lower Meghna), Dhaka HQ pulsing beacon, Sylhet Sector Alpha critical inundation alert, and infrastructure scours.
+  - `Cyclone`: Counter-clockwise rotating logarithmic spiral cloud bands, central calm storm eye (958 hPa), concentric wind field rings (`Cat 4 Eyewall >215 km/h`, `Cat 3 Storm 185 km/h`, `Gale-Force >90 km/h`), trajectory path with forward waypoints and widening cone of uncertainty towards Chittagong landfall, and coastal overwash surge alert ribbon (`+4.5m`).
+  - `Wildfire`: Active glowing jagged fire perimeters with pulsating embers, MODIS/VIIRS thermal infrared hotspot detections, semi-transparent smoke plume drifting downwind (ENE), directional wind vectors (`42 km/h WSW`), mandatory evacuation perimeter, and Highway 16 closure notice.
+  - `Earthquake`: Epicenter crosshair (`M 7.4`, 18km depth), concentric expanding P and S seismic shockwaves with decaying alpha, active crustal fault rupture trace, aftershock cluster scatter, Shindo intensity gradient contours (`Shindo 7`, `Shindo 6+`, `Shindo 5+`, `Shindo 4`), coastal tsunami advisory ribbon (`1.2m - 2.8m`), and Shika Nuclear Plant monitored status.
+  - `Multi-Hazard (Compound Cascade)`: Physical cascade interaction across the Bengal Delta—approaching intense cyclone vortex from the South pushing a `+4.2m` marine surge into coastal inlets meeting upstream transboundary monsoon river deluge pouring south from Sylhet & Assam. The confluence at Meghna Estuary forms a hydraulic dam blocking river drainage and causing compound delta backwater inundation, accompanied by grid substation failure flash nodes and severed arterial bridges.
+- **Cinematic Smooth Camera Transitions**: Frame-by-frame linear interpolation (`camLng`, `camLat`, `camSpanLng`, `camSpanLat`) gliding smoothly between geographic locations.
+- **Synchronized State & Domain Analytics Cards**:
+  - Dynamic 6-card Metrics Strip: domain units, numbers, and subtitles.
+  - Predictive Analytics Cards:
+    - *Projection*: `IMPACT PROJECTION` / `LANDFALL PROJECTION` / `FIRE SPREAD PROJECTION` / `AFTERSHOCK PROJECTION` / `CASCADE PROJECTION`.
+    - *Forecast*: `RAINFALL FORECAST` / `WIND SPEED FORECAST` / `FIRE WEATHER INDEX (FWI)` / `PEAK GROUND ACCELERATION` / `COMPOUND FORCING FORECAST`.
+    - *Infrastructure*: `INFRASTRUCTURE IMPACT` / `MARITIME & PORT EXPOSURE` / `PERIMETER ASSET EXPOSURE` / `STRUCTURAL INTEGRITY LOSS` / `CRITICAL INFRASTRUCTURE CASCADE`.
+- **Explainable Risk Drivers**: Interactive breakdown modal with weighted scoring algorithms, factor descriptions, and historical benchmark comparisons.
+
 ---
 
 ## 📜 Commit History & Changelog
 
 | Commit Hash | Type | Description |
 | :--- | :--- | :--- |
+| `caa4aae` | `feat(analysis)` | Implement data-driven hazard visualizations across all 5 hazard types (Flood, Cyclone, Wildfire, Earthquake, Multi-Hazard) |
+| `63748cf` | `fix(analysis)` | Establish authoritative layout hierarchy with independent hero map container, sibling insights cards, and dynamic autoScale |
+| `9056253` | `feat(analysis)` | Implement high-fidelity Multi-Hazard Intelligence Analysis workstation with geospatial hero map, predictive charts, and explainable risk drivers |
+| `d6a0b35` | `docs` | Document planetary intelligence workstation, system features, and commit history |
 | `6149cca` | `feat(intelligence)` | Wire View All incidents navigation and contextual simulate scenario trigger in right intelligence panel |
 | `957d4da` | `feat(incidents)` | Implement high-fidelity Incidents operational workstation with geospatial hero map, carousel, tabs, and filters |
 | `fdc951d` | `feat` | JARVIS Central Intelligence - Heartbeat-Synchronized 3D AI Core and Planetary HUD |
