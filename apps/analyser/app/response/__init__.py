@@ -1,0 +1,1 @@
+﻿# JARVIS response module

@@ -1,0 +1,84 @@
+<script lang="ts">
+  import TopBar from '$components/topbar/TopBar.svelte';
+  import NavRail from '$components/navigation/NavRail.svelte';
+  import GlobeView from '$three/GlobeView.svelte';
+  import CockpitFrame from '$components/cockpit/CockpitFrame.svelte';
+  import QuickTelemetry from '$components/widgets/QuickTelemetry.svelte';
+  import MonitoringBadge from '$components/widgets/MonitoringBadge.svelte';
+  import RiskLegend from '$components/widgets/RiskLegend.svelte';
+  import JarvisOrb from '$components/widgets/JarvisOrb.svelte';
+  import IncidentDetailCard from '$components/incidents/IncidentDetailCard.svelte';
+  import IntelligencePanel from '$components/intelligence/IntelligencePanel.svelte';
+  import ScenarioDrawer from '$components/scenarios/ScenarioDrawer.svelte';
+  import CommandActionBar from '$components/command/CommandActionBar.svelte';
+  import JarvisCentralOverlay from '$components/jarvis/JarvisCentralOverlay.svelte';
+  import { selectedIncident } from '$stores/incidentStore';
+  import { isJarvisCentralActive } from '$stores/commandStore';
+</script>
+
+<div class="flex flex-col w-screen h-screen overflow-hidden bg-[#020711] text-[#F0F6FC]">
+  <!-- Top Command & Status Bar -->
+  <TopBar />
+
+  <!-- Main Command Center Grid -->
+  <div class="flex-1 flex overflow-hidden relative">
+    
+    <!-- Left Spacecraft Navigation Rail -->
+    <NavRail />
+
+    <!-- Center Hero Section: 3D Earth Globe + Cockpit HUD -->
+    <main class="flex-1 relative overflow-hidden bg-[#020711] flex flex-col justify-between">
+      
+      <!-- 3D Interactive WebGL Globe (Hero Element) -->
+      <div class="absolute inset-0 z-0">
+        <GlobeView />
+      </div>
+
+      <!-- Cockpit HUD Frame Overlay (curved glass viewport frame) -->
+      <CockpitFrame />
+
+      {#if !$isJarvisCentralActive}
+        <!-- Floating HUD Telemetry (Top Left of Globe) -->
+        <div class="absolute top-4 left-5 z-20 flex flex-col gap-3 pointer-events-auto">
+          <QuickTelemetry />
+          {#if $selectedIncident}
+            <IncidentDetailCard />
+          {/if}
+        </div>
+
+        <!-- Floating Real-Time Monitoring Badge (Top Right of Globe) -->
+        <div class="absolute top-4 right-5 z-20 pointer-events-auto">
+          <MonitoringBadge />
+        </div>
+
+        <!-- Floating Bottom Section Over Globe (Unobstructed Viewport) -->
+        <div class="absolute bottom-5 inset-x-5 z-20 flex items-end justify-between pointer-events-none">
+          <!-- Bottom Left: Compact Risk Legend & 3D AI Hologram Orb -->
+          <div class="flex flex-col gap-2.5 pointer-events-auto shrink-0 max-w-[220px]">
+            <RiskLegend />
+            <JarvisOrb />
+          </div>
+
+          <!-- Bottom Center: Floating Command & Scenario Trigger Dock -->
+          <div class="flex-1 flex justify-center pointer-events-auto px-4">
+            <CommandActionBar />
+          </div>
+
+          <!-- Spacer balancing the bottom left widgets -->
+          <div class="w-[220px] shrink-0 pointer-events-none hidden md:block"></div>
+        </div>
+      {/if}
+
+      <!-- On-Demand Slide-Up Scenario Simulation Drawer -->
+      <ScenarioDrawer />
+
+      <!-- Central JARVIS Mode Transformation Overlay -->
+      <JarvisCentralOverlay />
+
+    </main>
+
+    <!-- Right Intelligence Panel -->
+    <IntelligencePanel />
+
+  </div>
+</div>
