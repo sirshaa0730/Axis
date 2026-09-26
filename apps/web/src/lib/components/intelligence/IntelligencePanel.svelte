@@ -2,6 +2,7 @@
   import { incidents, selectedIncidentId, selectIncident } from '../../stores/incidentStore';
   import { telemetry, isRightPanelCollapsed, activeNavSection, openScenarioDrawer } from '../../stores/systemStore';
   import { submitCommand, isJarvisCentralActive } from '../../stores/commandStore';
+  import { runAnalysisPipeline } from '../../stores/analysisStore';
   import type { HazardIncident } from '../../types';
 
   function onActionClick(actionName: string) {
@@ -142,96 +143,165 @@
     <div class="mb-4">
       <div class="text-[10px] font-mono tracking-wider text-[#8BA1B8] uppercase mb-2">OPERATIONAL TASKS</div>
       <div class="grid grid-cols-2 gap-2 text-xs font-mono">
-        <button
-          on:click={() => onActionClick('Impact Analysis')}
-          class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#00E5FF]/50 text-left transition-all group cursor-pointer"
-        >
-          <svg class="w-4 h-4 text-[#00E5FF] shrink-0 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-          </svg>
-          <span class="text-[11px] text-white">Impact Analysis</span>
-        </button>
+        {#if $activeNavSection === 'analysis'}
+          <button
+            on:click={() => runAnalysisPipeline()}
+            class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#00E5FF]/50 text-left transition-all group cursor-pointer"
+          >
+            <span class="text-sm">🧠</span>
+            <span class="text-[11px] text-white">Generate Analysis</span>
+          </button>
+          <button
+            on:click={() => openScenarioDrawer()}
+            class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#3D7CFF]/50 text-left transition-all group cursor-pointer"
+          >
+            <span class="text-sm">▶</span>
+            <span class="text-[11px] text-white">Run Scenario</span>
+          </button>
+          <button
+            on:click={() => onActionClick('Export Analysis Report')}
+            class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#8B5CFF]/50 text-left transition-all group cursor-pointer"
+          >
+            <span class="text-sm">📄</span>
+            <span class="text-[11px] text-white">Export Report</span>
+          </button>
+          <button
+            on:click={() => onActionClick('Share Intelligence')}
+            class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#00E5FF]/50 text-left transition-all group cursor-pointer"
+          >
+            <span class="text-sm">🔗</span>
+            <span class="text-[11px] text-white">Share Analysis</span>
+          </button>
+        {:else}
+          <button
+            on:click={() => onActionClick('Impact Analysis')}
+            class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#00E5FF]/50 text-left transition-all group cursor-pointer"
+          >
+            <svg class="w-4 h-4 text-[#00E5FF] shrink-0 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <span class="text-[11px] text-white">Impact Analysis</span>
+          </button>
 
-        <button
-          on:click={() => onActionClick('Simulate Scenario')}
-          class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#3D7CFF]/50 text-left transition-all group cursor-pointer"
-        >
-          <svg class="w-4 h-4 text-[#3D7CFF] shrink-0 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <span class="text-[11px] text-white">Simulate Scenario</span>
-        </button>
+          <button
+            on:click={() => onActionClick('Simulate Scenario')}
+            class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#3D7CFF]/50 text-left transition-all group cursor-pointer"
+          >
+            <svg class="w-4 h-4 text-[#3D7CFF] shrink-0 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span class="text-[11px] text-white">Simulate Scenario</span>
+          </button>
 
-        <button
-          on:click={() => onActionClick('Plan Resource Allocation')}
-          class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#8B5CFF]/50 text-left transition-all group cursor-pointer"
-        >
-          <svg class="w-4 h-4 text-[#8B5CFF] shrink-0 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-          </svg>
-          <span class="text-[11px] text-white">Resources</span>
-        </button>
+          <button
+            on:click={() => onActionClick('Plan Resource Allocation')}
+            class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#8B5CFF]/50 text-left transition-all group cursor-pointer"
+          >
+            <svg class="w-4 h-4 text-[#8B5CFF] shrink-0 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            <span class="text-[11px] text-white">Resources</span>
+          </button>
 
-        <button
-          on:click={() => onActionClick('Generate Report')}
-          class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#00E5FF]/50 text-left transition-all group cursor-pointer"
-        >
-          <svg class="w-4 h-4 text-[#00E5FF] shrink-0 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          <span class="text-[11px] text-white">Generate Report</span>
-        </button>
+          <button
+            on:click={() => onActionClick('Generate Report')}
+            class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#00E5FF]/50 text-left transition-all group cursor-pointer"
+          >
+            <svg class="w-4 h-4 text-[#00E5FF] shrink-0 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span class="text-[11px] text-white">Generate Report</span>
+          </button>
+        {/if}
       </div>
     </div>
 
-    <!-- Section 3: Global Statistics (2x2 Grid) -->
+    <!-- Section 3: Statistics (2x2 Grid) -->
     <div class="mb-4">
       <div class="flex items-center justify-between mb-2">
-        <span class="text-[10px] font-mono tracking-wider text-[#8BA1B8] uppercase">GLOBAL STATISTICS</span>
+        <span class="text-[10px] font-mono tracking-wider text-[#8BA1B8] uppercase">
+          {$activeNavSection === 'analysis' ? 'ANALYSIS STATISTICS' : 'GLOBAL STATISTICS'}
+        </span>
         <span class="text-[10px] font-mono text-emerald-400">● Live</span>
       </div>
 
-      <div class="grid grid-cols-2 gap-2 text-xs font-mono">
-        <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
-          <div class="flex items-center gap-1.5 mb-0.5">
-            <svg class="w-3.5 h-3.5 text-[#00E5FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-            <span class="text-sm font-bold text-white">{$telemetry.peopleAffected}</span>
+      {#if $activeNavSection === 'analysis'}
+        <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+          <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
+            <div class="flex items-center gap-1.5 mb-0.5">
+              <span class="text-sm">📈</span>
+              <span class="text-sm font-bold text-white">12</span>
+            </div>
+            <div class="text-[10px] text-[#8BA1B8]">Analyses Running</div>
           </div>
-          <div class="text-[10px] text-[#8BA1B8]">People Affected</div>
-        </div>
 
-        <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
-          <div class="flex items-center gap-1.5 mb-0.5">
-            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-            <span class="text-sm font-bold text-emerald-400">{$telemetry.responseTeams}</span>
+          <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
+            <div class="flex items-center gap-1.5 mb-0.5">
+              <span class="text-sm text-emerald-400">🎯</span>
+              <span class="text-sm font-bold text-emerald-400">99.3%</span>
+            </div>
+            <div class="text-[10px] text-[#8BA1B8]">Model Accuracy</div>
           </div>
-          <div class="text-[10px] text-[#8BA1B8]">Response Teams</div>
-        </div>
 
-        <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
-          <div class="flex items-center gap-1.5 mb-0.5">
-            <svg class="w-3.5 h-3.5 text-[#F59E0B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-            </svg>
-            <span class="text-sm font-bold text-[#F59E0B]">{$telemetry.activeShelters}</span>
+          <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
+            <div class="flex items-center gap-1.5 mb-0.5">
+              <span class="text-sm text-[#F59E0B]">🗄️</span>
+              <span class="text-sm font-bold text-[#F59E0B]">48</span>
+            </div>
+            <div class="text-[10px] text-[#8BA1B8]">Data Sources</div>
           </div>
-          <div class="text-[10px] text-[#8BA1B8]">Active Shelters</div>
-        </div>
 
-        <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
-          <div class="flex items-center gap-1.5 mb-0.5">
-            <svg class="w-3.5 h-3.5 text-[#00E5FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-            </svg>
-            <span class="text-sm font-bold text-[#00E5FF]">{$telemetry.criticalResourcesPct}%</span>
+          <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
+            <div class="flex items-center gap-1.5 mb-0.5">
+              <span class="text-sm text-[#00E5FF]">⏱️</span>
+              <span class="text-sm font-bold text-[#00E5FF]">&lt; 30s</span>
+            </div>
+            <div class="text-[10px] text-[#8BA1B8]">Avg. Analysis Time</div>
           </div>
-          <div class="text-[10px] text-[#8BA1B8]">Critical Resources</div>
         </div>
-      </div>
+      {:else}
+        <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+          <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
+            <div class="flex items-center gap-1.5 mb-0.5">
+              <svg class="w-3.5 h-3.5 text-[#00E5FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              <span class="text-sm font-bold text-white">{$telemetry.peopleAffected}</span>
+            </div>
+            <div class="text-[10px] text-[#8BA1B8]">People Affected</div>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
+            <div class="flex items-center gap-1.5 mb-0.5">
+              <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+              <span class="text-sm font-bold text-emerald-400">{$telemetry.responseTeams}</span>
+            </div>
+            <div class="text-[10px] text-[#8BA1B8]">Response Teams</div>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
+            <div class="flex items-center gap-1.5 mb-0.5">
+              <svg class="w-3.5 h-3.5 text-[#F59E0B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              <span class="text-sm font-bold text-[#F59E0B]">{$telemetry.activeShelters}</span>
+            </div>
+            <div class="text-[10px] text-[#8BA1B8]">Active Shelters</div>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
+            <div class="flex items-center gap-1.5 mb-0.5">
+              <svg class="w-3.5 h-3.5 text-[#00E5FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+              <span class="text-sm font-bold text-[#00E5FF]">{$telemetry.criticalResourcesPct}%</span>
+            </div>
+            <div class="text-[10px] text-[#8BA1B8]">Critical Resources</div>
+          </div>
+        </div>
+      {/if}
     </div>
 
     <!-- Section 4: System Status Card (Matching Reference Bottom Card) -->
@@ -248,13 +318,12 @@
         <div>
           <div class="text-[11px] font-mono font-bold tracking-wider text-white uppercase">SYSTEM STATUS</div>
           <div class="text-[10px] text-emerald-400 font-mono flex items-center gap-1.5">
-            <span>All Systems Operational</span>
+            <span>{$activeNavSection === 'analysis' ? 'Analysis Engine Operational' : 'All Systems Operational'}</span>
             <!-- Segmented green activity dots -->
             <span class="inline-flex gap-0.5">
               <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>
               <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" style="animation-delay: 0.2s;"></span>
               <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse" style="animation-delay: 0.4s;"></span>
-            </span>
           </div>
         </div>
       </div>

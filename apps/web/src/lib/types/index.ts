@@ -108,3 +108,90 @@ export interface IncidentUpdate {
   timeAgo: string;
   severity: 'alert' | 'warning' | 'info';
 }
+
+// ==========================================
+// ANALYSIS WORKSTATION DATA CONTRACTS
+// ==========================================
+
+export type AnalysisMode = 'current' | 'short_term' | 'long_term' | 'comparative';
+export type HazardSelectorType = 'flood' | 'cyclone' | 'wildfire' | 'earthquake' | 'multi_hazard';
+
+export interface RiskDriver {
+  name: string;
+  score: number; // 0 - 100
+  weight: number; // 0.0 - 1.0
+  description: string;
+}
+
+export interface ProjectionPoint {
+  label: string; // 'Now', '+7 days', '+14 days', '+30 days'
+  affected: number; // in Millions, e.g. 2.4
+  displaced: number; // in Millions, e.g. 1.2
+}
+
+export interface RainfallForecastPoint {
+  day: string; // 'Now', '1d', '3d', '5d', '7d'
+  amountMm: number;
+  anomalyPct: number;
+}
+
+export interface InfrastructureBreakdownItem {
+  label: string;
+  count: number;
+  icon?: string;
+}
+
+export interface HistoricalComparisonItem {
+  metric: string;
+  current: string;
+  historical: string;
+  diffPct: string;
+  higherIsWorse: boolean;
+}
+
+export interface IncidentAnalysisData {
+  incidentId: string;
+  hazardType: HazardSelectorType;
+  mode: AnalysisMode;
+  riskLevel: 'CRITICAL' | 'HIGH' | 'MODERATE' | 'LOW';
+  confidencePct: number;
+  metrics: {
+    peopleAffected: string;
+    peopleAffectedSub?: string;
+    displaced: string;
+    displacedSub?: string;
+    districts: number;
+    districtsSub?: string;
+    roadsAffected: number;
+    roadsSub?: string;
+    healthFacilities: number;
+    healthSub?: string;
+    majorBridges: number;
+    bridgesSub?: string;
+  };
+  projection: {
+    estimatedAffected: string;
+    increasePct: string;
+    riskTrend: 'HIGH' | 'MODERATE' | 'LOW';
+    timeline: ProjectionPoint[];
+  };
+  rainfall: {
+    cumulativeMm: number;
+    timeframe: string;
+    aboveAveragePct: number;
+    floodRiskLevel: 'HIGH' | 'CRITICAL' | 'MODERATE' | 'LOW';
+    bars: RainfallForecastPoint[];
+  };
+  infrastructure: {
+    networkAffectedPct: number;
+    networkLabel: string;
+    items: InfrastructureBreakdownItem[];
+  };
+  riskDrivers: RiskDriver[];
+  historicalBenchmark?: {
+    eventName: string;
+    eventYear: number;
+    comparisons: HistoricalComparisonItem[];
+  };
+}
+

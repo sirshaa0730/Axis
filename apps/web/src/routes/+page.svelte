@@ -13,6 +13,7 @@
   import CommandActionBar from '$components/command/CommandActionBar.svelte';
   import JarvisCentralOverlay from '$components/jarvis/JarvisCentralOverlay.svelte';
   import IncidentsView from '$components/incidents/IncidentsView.svelte';
+  import AnalysisView from '$components/analysis/AnalysisView.svelte';
   import { selectedIncident } from '$stores/incidentStore';
   import { isJarvisCentralActive } from '$stores/commandStore';
   import { activeNavSection } from '$stores/systemStore';
@@ -28,13 +29,18 @@
     <!-- Left Spacecraft Navigation Rail -->
     <NavRail />
 
-    <!-- Center Hero Section: 3D Earth Globe + Cockpit HUD or Incidents Workspace -->
+    <!-- Center Hero Section: 3D Earth Globe + Cockpit HUD or Incidents/Analysis Workspace -->
     <main class="flex-1 relative overflow-hidden bg-[#020711] flex flex-col justify-between">
       
       {#if $activeNavSection === 'incidents'}
         <!-- Incidents Operational Workstation View -->
         <div class="absolute inset-0 z-10 flex flex-col overflow-hidden">
           <IncidentsView />
+        </div>
+      {:else if $activeNavSection === 'analysis'}
+        <!-- Analysis Multi-Hazard Intelligence Workstation View -->
+        <div class="absolute inset-0 z-10 flex flex-col overflow-hidden">
+          <AnalysisView />
         </div>
       {:else}
         <!-- 3D Interactive WebGL Globe (Hero Element) -->
