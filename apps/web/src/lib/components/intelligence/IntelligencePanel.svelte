@@ -1,11 +1,15 @@
 <script lang="ts">
   import { incidents, selectedIncidentId, selectIncident } from '../../stores/incidentStore';
-  import { telemetry, isRightPanelCollapsed } from '../../stores/systemStore';
+  import { telemetry, isRightPanelCollapsed, activeNavSection, openScenarioDrawer } from '../../stores/systemStore';
   import { submitCommand, isJarvisCentralActive } from '../../stores/commandStore';
   import type { HazardIncident } from '../../types';
 
   function onActionClick(actionName: string) {
-    submitCommand(`Execute ${actionName} for active planetary incidents`);
+    if (actionName === 'Simulate Scenario') {
+      openScenarioDrawer();
+    } else {
+      submitCommand(`Execute ${actionName} for active planetary incidents`);
+    }
   }
 
   function toggleCollapse() {
@@ -57,7 +61,12 @@
     <div class="mb-4">
       <div class="flex items-center justify-between mb-2">
         <span class="text-xs font-semibold text-white">Active Incidents</span>
-        <span class="text-[10px] font-mono text-[#00E5FF] hover:underline cursor-pointer">View all →</span>
+        <button
+          on:click={() => activeNavSection.set('incidents')}
+          class="text-[10px] font-mono text-[#00E5FF] hover:underline cursor-pointer bg-transparent border-0 p-0"
+        >
+          View all →
+        </button>
       </div>
 
       <div class="space-y-2">
