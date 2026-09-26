@@ -11,13 +11,15 @@
   const padBottom = 22;
   const plotW = chartW - padLeft - 10;
   const plotH = chartH - padBottom;
-  const maxVal = 600; // 600 mm
 
   $: bars = rain.bars || [];
+  $: maxBarAmount = bars.length ? Math.max(...bars.map((b) => b.amountMm || 0)) : 500;
+  $: maxVal = Math.max(60, Math.ceil(maxBarAmount * 1.15));
+  $: gridVals = [Math.round(maxVal * 0.33), Math.round(maxVal * 0.66), maxVal];
   $: colWidth = (plotW / (bars.length || 1)) * 0.45;
 
   function getY(mm: number): number {
-    return plotH - (mm / maxVal) * plotH + 5;
+    return plotH - (Math.min(mm, maxVal) / maxVal) * plotH + 5;
   }
 </script>
 
@@ -26,7 +28,7 @@
   <div class="flex items-center justify-between pb-2 border-b border-white/10">
     <div class="flex items-center gap-1.5 text-white font-bold text-[11px] tracking-wider uppercase">
       <span class="w-1.5 h-1.5 rounded-full bg-[#00E5FF]"></span>
-      <span>RAINFALL FORECAST</span>
+      <span>{rain.title || 'RAINFALL FORECAST'}</span>
     </div>
     <div class="flex items-center gap-1 text-[#8BA1B8] text-[10px]">
       <span class="cursor-pointer hover:text-white">−</span>
@@ -37,22 +39,28 @@
   <!-- Key Metrics Row -->
   <div class="flex items-center justify-between py-2 border-b border-white/5">
     <div class="flex items-center gap-2">
-      <span class="text-base font-bold text-white tracking-tight">{rain.cumulativeMm} mm</span>
+      <span class="text-base font-bold text-white tracking-tight">{rain.cumulativeMm} {rain.cumulativeUnit || 'mm'}</span>
       <span class="text-[9px] text-[#8BA1B8] leading-tight">{rain.timeframe || 'Next 7 days'}</span>
     </div>
 
     <div class="flex items-center gap-1.5">
       <span class="text-xs font-bold text-[#00E5FF]">+{rain.aboveAveragePct}%</span>
-      <span class="text-[8px] text-[#8BA1B8] leading-tight">Above<br/>average</span>
+      <span class="text-[8px] text-[#8BA1B8] leading-tight">
+        {#if rain.anomalyLabel}
+          {rain.anomalyLabel}
+        {:else}
+          Above<br/>average
+        {/if}
+      </span>
     </div>
 
     <div>
       <span class="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider {
-        rain.floodRiskLevel === 'HIGH' || rain.floodRiskLevel === 'CRITICAL'
+        rain.floodRiskLevel === 'HIGH' || rain.floodRiskLevel === 'CRITICAL' || rain.floodRiskLevel === 'EXTREME' || rain.floodRiskLevel === 'CATASTROPHIC'
           ? 'bg-red-500/20 text-red-400 border border-red-500/40'
           : 'bg-amber-500/20 text-amber-400 border border-amber-500/40'
       }">
-        {rain.floodRiskLevel} Flood Risk
+        {rain.floodRiskLevel} {rain.riskBadgeLabel || 'Threat'}
       </span>
     </div>
   </div>
@@ -74,7 +82,7 @@
       </defs>
 
       <!-- Horizontal gridlines -->
-      {#each [200, 400, 600] as gVal}
+      {#each gridVals as gVal}
         <line
           x1={padLeft}
           y1={getY(gVal)}

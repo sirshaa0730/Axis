@@ -1,5 +1,5 @@
-﻿<script lang="ts">
-  import { activeHazardType } from '../../stores/analysisStore';
+<script lang="ts">
+  import { activeHazardType, selectHazard, isTransitioningHazard, hazardTransitionStage } from '../../stores/analysisStore';
   import type { HazardSelectorType } from '../../types';
 
   const hazards: Array<{ id: HazardSelectorType; label: string; icon: string }> = [
@@ -9,10 +9,6 @@
     { id: 'earthquake', label: 'Earthquake', icon: '⚡' },
     { id: 'multi_hazard', label: 'Multi-Hazard', icon: '🗂️' }
   ];
-
-  function selectHazard(id: HazardSelectorType) {
-    activeHazardType.set(id);
-  }
 </script>
 
 <div class="flex flex-wrap items-center justify-between gap-3 pb-2 select-none font-mono">

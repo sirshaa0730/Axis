@@ -16,7 +16,7 @@
   <div class="flex items-center justify-between pb-2 border-b border-white/10">
     <div class="flex items-center gap-1.5 text-white font-bold text-[11px] tracking-wider uppercase">
       <span class="w-1.5 h-1.5 rounded-full bg-[#00E5FF]"></span>
-      <span>INFRASTRUCTURE IMPACT</span>
+      <span>{infra.title || 'INFRASTRUCTURE IMPACT'}</span>
     </div>
     <div class="flex items-center gap-1 text-[#8BA1B8] text-[10px]">
       <span class="cursor-pointer hover:text-white">−</span>

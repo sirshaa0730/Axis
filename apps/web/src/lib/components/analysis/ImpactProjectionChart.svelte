@@ -49,7 +49,7 @@
   <div class="flex items-center justify-between pb-2 border-b border-white/10">
     <div class="flex items-center gap-1.5 text-white font-bold text-[11px] tracking-wider uppercase">
       <span class="w-1.5 h-1.5 rounded-full bg-[#00E5FF]"></span>
-      <span>IMPACT PROJECTION</span>
+      <span>{proj.title || 'IMPACT PROJECTION'}</span>
     </div>
     <div class="flex items-center gap-1 text-[#8BA1B8] text-[10px]">
       <span class="cursor-pointer hover:text-white">−</span>
@@ -61,12 +61,24 @@
   <div class="flex items-center justify-between flex-wrap gap-2 py-2 border-b border-white/5">
     <div class="flex items-center gap-2">
       <span class="text-base font-bold text-white tracking-tight">{proj.estimatedAffected}</span>
-      <span class="text-[9px] text-[#8BA1B8] leading-tight">Estimated<br/>Affected</span>
+      <span class="text-[9px] text-[#8BA1B8] leading-tight">
+        {#if proj.estimatedAffectedLabel}
+          {proj.estimatedAffectedLabel}
+        {:else}
+          Estimated<br/>Affected
+        {/if}
+      </span>
     </div>
 
     <div class="flex items-center gap-1.5">
       <span class="text-xs font-bold text-red-400">{proj.increasePct}</span>
-      <span class="text-[8px] text-[#8BA1B8] leading-tight">Increase vs<br/>Current</span>
+      <span class="text-[8px] text-[#8BA1B8] leading-tight">
+        {#if proj.increaseLabel}
+          {proj.increaseLabel}
+        {:else}
+          Increase vs<br/>Current
+        {/if}
+      </span>
     </div>
 
     <div>
@@ -171,11 +183,11 @@
     <div class="flex items-center gap-3">
       <div class="flex items-center gap-1.5">
         <span class="w-2 h-2 rounded-full bg-[#00E5FF]"></span>
-        <span class="text-white">Affected Population</span>
+        <span class="text-white">{proj.legendSeries1 || 'Primary Affected'}</span>
       </div>
       <div class="flex items-center gap-1.5">
         <span class="w-2 h-2 rounded-full bg-[#C084FC]"></span>
-        <span class="text-white">Displaced Population</span>
+        <span class="text-white">{proj.legendSeries2 || 'Secondary Displaced'}</span>
       </div>
     </div>
 

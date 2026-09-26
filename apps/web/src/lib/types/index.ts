@@ -1,4 +1,4 @@
-export type HazardType = 'flood' | 'cyclone' | 'wildfire' | 'earthquake' | 'infrastructure_failure' | 'storm' | 'heatwave';
+export type HazardType = 'flood' | 'cyclone' | 'wildfire' | 'earthquake' | 'infrastructure_failure' | 'storm' | 'heatwave' | 'multi_hazard';
 export type SeverityLevel = 'critical' | 'high' | 'moderate' | 'low';
 
 export interface Coordinates {
@@ -125,8 +125,8 @@ export interface RiskDriver {
 
 export interface ProjectionPoint {
   label: string; // 'Now', '+7 days', '+14 days', '+30 days'
-  affected: number; // in Millions, e.g. 2.4
-  displaced: number; // in Millions, e.g. 1.2
+  affected: number; // in Millions or relevant unit
+  displaced: number; // in Millions or relevant unit
 }
 
 export interface RainfallForecastPoint {
@@ -160,29 +160,40 @@ export interface IncidentAnalysisData {
     peopleAffectedSub?: string;
     displaced: string;
     displacedSub?: string;
-    districts: number;
+    districts: number | string;
     districtsSub?: string;
-    roadsAffected: number;
+    roadsAffected: number | string;
     roadsSub?: string;
-    healthFacilities: number;
+    healthFacilities: number | string;
     healthSub?: string;
-    majorBridges: number;
+    majorBridges: number | string;
     bridgesSub?: string;
   };
   projection: {
+    title?: string;
     estimatedAffected: string;
+    estimatedAffectedLabel?: string;
     increasePct: string;
+    increaseLabel?: string;
     riskTrend: 'HIGH' | 'MODERATE' | 'LOW';
     timeline: ProjectionPoint[];
+    legendSeries1?: string;
+    legendSeries2?: string;
   };
   rainfall: {
-    cumulativeMm: number;
+    title?: string;
+    cumulativeMm: number | string;
+    cumulativeUnit?: string;
     timeframe: string;
     aboveAveragePct: number;
-    floodRiskLevel: 'HIGH' | 'CRITICAL' | 'MODERATE' | 'LOW';
+    anomalyLabel?: string;
+    floodRiskLevel: 'HIGH' | 'CRITICAL' | 'MODERATE' | 'LOW' | string;
+    riskBadgeLabel?: string;
     bars: RainfallForecastPoint[];
+    yAxisMax?: number;
   };
   infrastructure: {
+    title?: string;
     networkAffectedPct: number;
     networkLabel: string;
     items: InfrastructureBreakdownItem[];

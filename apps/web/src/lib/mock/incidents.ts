@@ -683,6 +683,102 @@ export const MOCK_INCIDENTS: HazardIncident[] = [
         { name: 'Wiesbaden', coords: [8.24, 50.08], population: '280K' }
       ]
     }
+  },
+  {
+    id: 'inc-cascade',
+    name: 'Cyclone-Flood Compound Cascade',
+    type: 'multi_hazard',
+    region: 'Bay of Bengal & Meghna Estuary',
+    country: 'Bangladesh',
+    coords: { lat: 22.8, lng: 90.5 },
+    severity: 'critical',
+    affectedPopulation: '3.2M affected',
+    affectedPopulationNum: 3200000,
+    displacedPopulation: '1.6M displaced',
+    displacedPopulationNum: 1600000,
+    roadsAffected: 48,
+    districtsAffected: 14,
+    relativeTime: '1 hour ago',
+    timestamp: '2026-09-26T16:00:00Z',
+    riskScore: 96,
+    confidence: 0.95,
+    thumbnailUrl: '/assets/flood_thumb.jpg',
+    status: 'escalating',
+    details: {
+      rainfallRate: '+45mm/hr combined with 4.2m marine surge',
+      windSpeed: '165 km/h gusts at coastal front',
+      shelterDemand: '32 Shelters at 98% Capacity',
+      roadAccessibility: '48 Arterials Severed // Coastal Bridges Compromised',
+      description: 'Compound systemic disaster: maritime cyclonic surge pushing inland meeting transboundary river runoff deluge at Meghna Estuary.'
+    },
+    overview: {
+      summary: 'Catastrophic compound multi-hazard cascade: maritime cyclone storm surge of +4.2m prevents transboundary monsoon river runoff from discharging, creating an upstream hydraulic dam effect across the central delta basin.',
+      riskLevel: 'CRITICAL',
+      projectedConditions: 'Compound surge-discharge backwater peaking within 18 hours. Complete isolation of 14 delta sub-districts and simultaneous electrical grid failures.',
+      keyMetrics: [
+        { label: 'Compound Affected', value: '3.2M', sub: 'Surge + Flood zone' },
+        { label: 'Displaced Population', value: '1.6M', sub: 'In emergency shelters' },
+        { label: 'Critical Arterials Lost', value: '48', sub: 'Bridges & Highways' },
+        { label: 'Grid Failure Nodes', value: '12', sub: 'Substations Submerged' }
+      ]
+    },
+    impact: {
+      population: [
+        { label: 'Extreme Trapped (Surge & Flood)', value: '980,000', pct: 31, color: '#EF4444' },
+        { label: 'Evacuated to High-Ground Polders', value: '620,000', pct: 19, color: '#10B981' },
+        { label: 'Isolated Delta Communities', value: '1,150,000', pct: 36, color: '#F59E0B' },
+        { label: 'Disrupted Coastal Workforce', value: '450,000', pct: 14, color: '#38BDF8' }
+      ],
+      infrastructure: [
+        { label: 'Meghna Ghat Transmission Hub', value: 'Flooded & Tripped Offline', status: 'critical' },
+        { label: 'Padma Bridge Southern Approach', value: 'Scour Alert Tier-1', status: 'warning' },
+        { label: 'Chittagong Coastal Floodwall', value: 'Breached in 3 Sectors', status: 'critical' },
+        { label: 'Regional Microwave Telecom Towers', value: 'Operating on Emergency Gen', status: 'warning' }
+      ],
+      healthcare: '6 Coastal Regional Hospitals operating on emergency amphibious supply lines.',
+      shelterOccupancy: '98% Critical Capacity across 32 fortified cyclone/flood shelters.',
+      roadAccessibility: '48 Main Arterial routes severed; N1 Dhaka-Chittagong and N8 Dhaka-Barisal impassable.'
+    },
+    forecast: {
+      timeline: [
+        { time: '-24h', areaKm2: 1200, popAtRisk: '2.1M', rainfallDelta: '+90mm', severityScore: 84 },
+        { time: '-12h', areaKm2: 1850, popAtRisk: '2.7M', rainfallDelta: '+130mm', severityScore: 90 },
+        { time: 'NOW', areaKm2: 2600, popAtRisk: '3.2M', rainfallDelta: '+185mm', severityScore: 96 },
+        { time: '+24h', areaKm2: 3200, popAtRisk: '3.8M', rainfallDelta: '+220mm', severityScore: 98 },
+        { time: '+48h', areaKm2: 3450, popAtRisk: '4.1M', rainfallDelta: '+210mm', severityScore: 97 },
+        { time: '+72h', areaKm2: 2900, popAtRisk: '3.5M', rainfallDelta: '+110mm', severityScore: 89 }
+      ],
+      trendSummary: 'Peak compound confluence crest expected at +18h when astronomical high tide locks river drainage.',
+      crestTime: 'Compound marine-river crest at +18h (+4.2m marine / +2.1m river)'
+    },
+    response: {
+      teamsDeployed: 210,
+      activeShelters: 32,
+      bedsAvailable: 18400,
+      reliefSuppliesDays: 3.5,
+      units: [
+        { name: 'Joint Armed Forces Amphibious Command', type: 'Rapid Evacuation & Air-Drop', status: 'Active', location: 'Meghna Confluence' },
+        { name: 'Coast Guard Deep-Water Rescue Group', type: 'Marine & Estuary SAR', status: 'Active', location: 'Bay of Bengal Littoral' },
+        { name: 'Red Crescent Compound Disaster Taskforce', type: 'Emergency Medical & Water Purif', status: 'Active', location: 'Barisal Command' }
+      ]
+    },
+    geometry: {
+      center: [90.50, 22.80],
+      bounds: [[88.2, 20.8], [92.6, 24.8]],
+      floodExtent: [
+        [90.1, 23.4], [91.2, 23.2], [91.5, 22.4], [90.8, 21.8], [89.8, 22.2]
+      ],
+      highRiskZones: [
+        { name: 'Meghna Confluence Bottleneck', coords: [90.65, 22.65], radiusKm: 42, severity: 'critical' },
+        { name: 'Barisal Coastal Surge Zone', coords: [90.35, 22.40], radiusKm: 38, severity: 'critical' }
+      ],
+      cities: [
+        { name: 'Dhaka', coords: [90.41, 23.81], population: '22.0M', isCapital: true },
+        { name: 'Barisal', coords: [90.37, 22.70], population: '520K' },
+        { name: 'Chittagong', coords: [91.83, 22.36], population: '5.2M' }
+      ]
+    }
   }
 ];
+
 
