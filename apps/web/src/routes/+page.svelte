@@ -14,6 +14,7 @@
   import JarvisCentralOverlay from '$components/jarvis/JarvisCentralOverlay.svelte';
   import IncidentsView from '$components/incidents/IncidentsView.svelte';
   import AnalysisView from '$components/analysis/AnalysisView.svelte';
+  import ScenariosView from '$components/scenarios/ScenariosView.svelte';
   import { selectedIncident } from '$stores/incidentStore';
   import { isJarvisCentralActive } from '$stores/commandStore';
   import { activeNavSection } from '$stores/systemStore';
@@ -41,6 +42,11 @@
         <!-- Analysis Multi-Hazard Intelligence Workstation View -->
         <div class="absolute inset-0 z-10 flex flex-col overflow-y-auto overflow-x-hidden">
           <AnalysisView />
+        </div>
+      {:else if $activeNavSection === 'scenarios'}
+        <!-- Scenarios What-If Simulation Workstation View -->
+        <div class="absolute inset-0 z-10 flex flex-col overflow-y-auto overflow-x-hidden">
+          <ScenariosView />
         </div>
       {:else}
         <!-- 3D Interactive WebGL Globe (Hero Element) -->

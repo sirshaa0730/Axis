@@ -206,3 +206,5 @@ export interface IncidentAnalysisData {
   };
 }
 
+export * from './scenario';
+

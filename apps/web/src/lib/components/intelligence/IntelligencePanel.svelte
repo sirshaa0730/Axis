@@ -3,6 +3,13 @@
   import { telemetry, isRightPanelCollapsed, activeNavSection, openScenarioDrawer } from '../../stores/systemStore';
   import { submitCommand, isJarvisCentralActive } from '../../stores/commandStore';
   import { runAnalysisPipeline } from '../../stores/analysisStore';
+  import {
+    scenarioSimulationResult,
+    activeScenarioView,
+    isSaveModalOpen,
+    isExportModalOpen,
+    setScenarioHazard
+  } from '../../stores/scenarioStore';
   import type { HazardIncident } from '../../types';
 
   function onActionClick(actionName: string) {
@@ -73,7 +80,12 @@
       <div class="space-y-2">
         {#each $incidents as inc}
           <button
-            on:click={() => selectIncident(inc)}
+            on:click={() => {
+              selectIncident(inc);
+              if ($activeNavSection === 'scenarios') {
+                setScenarioHazard(inc.type);
+              }
+            }}
             class="w-full text-left p-2.5 rounded-xl border transition-all duration-200 cursor-pointer {
               $selectedIncidentId === inc.id
                 ? 'bg-[#061425] border-[#00E5FF]/70 shadow-[0_0_20px_rgba(0,229,255,0.25)]'
@@ -143,7 +155,36 @@
     <div class="mb-4">
       <div class="text-[10px] font-mono tracking-wider text-[#8BA1B8] uppercase mb-2">OPERATIONAL TASKS</div>
       <div class="grid grid-cols-2 gap-2 text-xs font-mono">
-        {#if $activeNavSection === 'analysis'}
+        {#if $activeNavSection === 'scenarios'}
+          <button
+            on:click={() => isSaveModalOpen.set(true)}
+            class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#8B5CF6]/50 text-left transition-all group cursor-pointer"
+          >
+            <span class="text-sm">💾</span>
+            <span class="text-[11px] text-white">Save Scenario</span>
+          </button>
+          <button
+            on:click={() => activeScenarioView.set('library')}
+            class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#00E5FF]/50 text-left transition-all group cursor-pointer"
+          >
+            <span class="text-sm">📂</span>
+            <span class="text-[11px] text-white">Load Scenario</span>
+          </button>
+          <button
+            on:click={() => activeScenarioView.set('comparison')}
+            class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#F59E0B]/50 text-left transition-all group cursor-pointer"
+          >
+            <span class="text-sm">⚖️</span>
+            <span class="text-[11px] text-white">Compare</span>
+          </button>
+          <button
+            on:click={() => isExportModalOpen.set(true)}
+            class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#10B981]/50 text-left transition-all group cursor-pointer"
+          >
+            <span class="text-sm">📊</span>
+            <span class="text-[11px] text-white">Export Results</span>
+          </button>
+        {:else if $activeNavSection === 'analysis'}
           <button
             on:click={() => runAnalysisPipeline()}
             class="flex items-center gap-2 p-2.5 rounded-xl bg-[#061425]/60 hover:bg-[#061425] border border-white/5 hover:border-[#00E5FF]/50 text-left transition-all group cursor-pointer"
@@ -220,12 +261,50 @@
     <div class="mb-4">
       <div class="flex items-center justify-between mb-2">
         <span class="text-[10px] font-mono tracking-wider text-[#8BA1B8] uppercase">
-          {$activeNavSection === 'analysis' ? 'ANALYSIS STATISTICS' : 'GLOBAL STATISTICS'}
+          {#if $activeNavSection === 'scenarios'}
+            SCENARIO INSIGHTS
+          {:else if $activeNavSection === 'analysis'}
+            ANALYSIS STATISTICS
+          {:else}
+            GLOBAL STATISTICS
+          {/if}
         </span>
         <span class="text-[10px] font-mono text-emerald-400">● Live</span>
       </div>
 
-      {#if $activeNavSection === 'analysis'}
+      {#if $activeNavSection === 'scenarios'}
+        <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+          <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5 flex flex-col">
+            <div class="text-base font-bold text-[#8B5CF6] mb-0.5">
+              {$scenarioSimulationResult.insights.potentialIncrease}
+            </div>
+            <div class="text-[10px] text-[#8BA1B8]">Potential Increase</div>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5 flex flex-col">
+            <div class="text-base font-bold text-white mb-0.5">
+              {$scenarioSimulationResult.insights.projectedAffected}
+            </div>
+            <div class="text-[10px] text-[#8BA1B8]">Projected Affected</div>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5 flex flex-col">
+            <div class="text-base font-bold {
+              $scenarioSimulationResult.insights.riskLevel === 'CRITICAL' ? 'text-[#EF4444]' : 'text-[#F59E0B]'
+            } mb-0.5">
+              {$scenarioSimulationResult.insights.riskLevel}
+            </div>
+            <div class="text-[10px] text-[#8BA1B8]">Risk Level</div>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5 flex flex-col">
+            <div class="text-base font-bold text-[#00E5FF] mb-0.5">
+              {$scenarioSimulationResult.insights.infrastructureImpact}
+            </div>
+            <div class="text-[10px] text-[#8BA1B8]">Infrastructure Impact</div>
+          </div>
+        </div>
+      {:else if $activeNavSection === 'analysis'}
         <div class="grid grid-cols-2 gap-2 text-xs font-mono">
           <div class="p-2.5 rounded-xl bg-[#061425]/50 border border-white/5">
             <div class="flex items-center gap-1.5 mb-0.5">
@@ -318,7 +397,11 @@
         <div>
           <div class="text-[11px] font-mono font-bold tracking-wider text-white uppercase">SYSTEM STATUS</div>
           <div class="text-[10px] text-emerald-400 font-mono flex items-center gap-1.5">
-            <span>{$activeNavSection === 'analysis' ? 'Analysis Engine Operational' : 'All Systems Operational'}</span>
+            <span>{
+              $activeNavSection === 'scenarios' ? 'Simulation Engine Operational' :
+              $activeNavSection === 'analysis' ? 'Analysis Engine Operational' :
+              'All Systems Operational'
+            }</span>
             <!-- Segmented green activity dots -->
             <span class="inline-flex gap-0.5">
               <span class="w-1 h-1 rounded-full bg-emerald-400 animate-pulse"></span>

@@ -80,6 +80,7 @@ JARVIS/
 
 | Commit Hash | Type | Description |
 | :--- | :--- | :--- |
+| `HEAD` | `feat(scenarios)` | Implement high-fidelity What-If Simulation & Scenario Intelligence workstation with multi-hazard counterfactual engine, timeline scrubber, and comparison matrix |
 | `caa4aae` | `feat(analysis)` | Implement data-driven hazard visualizations across all 5 hazard types (Flood, Cyclone, Wildfire, Earthquake, Multi-Hazard) |
 | `63748cf` | `fix(analysis)` | Establish authoritative layout hierarchy with independent hero map container, sibling insights cards, and dynamic autoScale |
 | `9056253` | `feat(analysis)` | Implement high-fidelity Multi-Hazard Intelligence Analysis workstation with geospatial hero map, predictive charts, and explainable risk drivers |
