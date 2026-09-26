@@ -1,11 +1,12 @@
 <script lang="ts">
   import { activeNavSection, isNavCollapsed } from '../../stores/systemStore';
   import { isJarvisCentralActive } from '../../stores/commandStore';
+  import { severityCounts } from '../../stores/incidentStore';
   import MiniGlobe from '../widgets/MiniGlobe.svelte';
 
   const navItems = [
     { id: 'global', label: 'Global View', icon: 'globe', badge: null },
-    { id: 'incidents', label: 'Incidents', icon: 'bell', badge: '3', badgeColor: 'bg-[#EF4444]' },
+    { id: 'incidents', label: 'Incidents', icon: 'bell', badge: '2', badgeColor: 'bg-[#EF4444]' },
     { id: 'analysis', label: 'Analysis', icon: 'barChart', badge: null },
     { id: 'scenarios', label: 'Scenarios', icon: 'gitBranch', badge: null },
     { id: 'response', label: 'Response', icon: 'shield', badge: null },

@@ -3,7 +3,7 @@ import { MOCK_TELEMETRY } from '../mock/scenarios';
 import type { TelemetrySummary } from '../types';
 
 export const currentUtcTime = writable<string>('Oct 26, 2024 14:32:18 UTC');
-export const activeNavSection = writable<string>('global');
+export const activeNavSection = writable<string>('incidents');
 export const telemetry = writable<TelemetrySummary>(MOCK_TELEMETRY);
 export const isAiSpeaking = writable<boolean>(false);
 export const audioTranscriptionActive = writable<boolean>(false);

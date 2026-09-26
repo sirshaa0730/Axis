@@ -12,8 +12,10 @@
   import ScenarioDrawer from '$components/scenarios/ScenarioDrawer.svelte';
   import CommandActionBar from '$components/command/CommandActionBar.svelte';
   import JarvisCentralOverlay from '$components/jarvis/JarvisCentralOverlay.svelte';
+  import IncidentsView from '$components/incidents/IncidentsView.svelte';
   import { selectedIncident } from '$stores/incidentStore';
   import { isJarvisCentralActive } from '$stores/commandStore';
+  import { activeNavSection } from '$stores/systemStore';
 </script>
 
 <div class="flex flex-col w-screen h-screen overflow-hidden bg-[#020711] text-[#F0F6FC]">
@@ -26,25 +28,31 @@
     <!-- Left Spacecraft Navigation Rail -->
     <NavRail />
 
-    <!-- Center Hero Section: 3D Earth Globe + Cockpit HUD -->
+    <!-- Center Hero Section: 3D Earth Globe + Cockpit HUD or Incidents Workspace -->
     <main class="flex-1 relative overflow-hidden bg-[#020711] flex flex-col justify-between">
       
-      <!-- 3D Interactive WebGL Globe (Hero Element) -->
-      <div class="absolute inset-0 z-0">
-        <GlobeView />
-      </div>
-
-      <!-- Cockpit HUD Frame Overlay (curved glass viewport frame) -->
-      <CockpitFrame />
-
-      {#if !$isJarvisCentralActive}
-        <!-- Floating HUD Telemetry (Top Left of Globe) -->
-        <div class="absolute top-4 left-5 z-20 flex flex-col gap-3 pointer-events-auto">
-          <QuickTelemetry />
-          {#if $selectedIncident}
-            <IncidentDetailCard />
-          {/if}
+      {#if $activeNavSection === 'incidents'}
+        <!-- Incidents Operational Workstation View -->
+        <div class="absolute inset-0 z-10 flex flex-col overflow-hidden">
+          <IncidentsView />
         </div>
+      {:else}
+        <!-- 3D Interactive WebGL Globe (Hero Element) -->
+        <div class="absolute inset-0 z-0">
+          <GlobeView />
+        </div>
+
+        <!-- Cockpit HUD Frame Overlay (curved glass viewport frame) -->
+        <CockpitFrame />
+
+        {#if !$isJarvisCentralActive}
+          <!-- Floating HUD Telemetry (Top Left of Globe) -->
+          <div class="absolute top-4 left-5 z-20 flex flex-col gap-3 pointer-events-auto">
+            <QuickTelemetry />
+            {#if $selectedIncident}
+              <IncidentDetailCard />
+            {/if}
+          </div>
 
         <!-- Floating Real-Time Monitoring Badge (Top Right of Globe) -->
         <div class="absolute top-4 right-5 z-20 pointer-events-auto">
@@ -67,6 +75,7 @@
           <!-- Spacer balancing the bottom left widgets -->
           <div class="w-[220px] shrink-0 pointer-events-none hidden md:block"></div>
         </div>
+      {/if}
       {/if}
 
       <!-- On-Demand Slide-Up Scenario Simulation Drawer -->
