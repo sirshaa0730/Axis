@@ -1,4 +1,4 @@
-﻿<script lang="ts">
+<script lang="ts">
   import { activeAnalysisMode } from '../../stores/analysisStore';
   import type { AnalysisMode } from '../../types';
 
@@ -19,26 +19,26 @@
     ANALYSIS MODE
   </div>
 
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+  <div class="flex items-center gap-2 overflow-x-auto pb-0.5 no-scrollbar">
     {#each modes as m}
       {@const isActive = $activeAnalysisMode === m.id}
       <button
         on:click={() => setMode(m.id)}
-        class="flex items-center gap-2 px-3 py-2 rounded-2xl text-left transition-all duration-200 cursor-pointer border {
+        class="flex-1 min-w-[130px] flex items-center gap-2 px-2.5 py-1.5 rounded-2xl text-left transition-all duration-200 cursor-pointer border shrink-0 {
           isActive
             ? 'bg-[#081e36]/90 border-[#00E5FF] text-white shadow-[0_0_20px_rgba(0,229,255,0.35)]'
             : 'bg-[#061425]/75 hover:bg-[#061425] border-white/10 hover:border-white/30 text-[#8BA1B8] hover:text-white'
         }"
         title="{m.label}: {m.sub}"
       >
-        <span class="text-sm shrink-0 {isActive ? 'scale-110' : ''} transition-transform">
+        <span class="text-xs shrink-0 {isActive ? 'scale-110' : ''} transition-transform">
           {m.icon}
         </span>
         <div class="flex flex-col min-w-0">
-          <span class="text-[11px] font-bold truncate leading-tight {isActive ? 'text-[#00E5FF]' : 'text-white'}">
+          <span class="text-[10px] font-bold truncate leading-tight {isActive ? 'text-[#00E5FF]' : 'text-white'}">
             {m.label}
           </span>
-          <span class="text-[9px] text-[#8BA1B8] truncate leading-tight mt-0.5">
+          <span class="text-[8.5px] text-[#8BA1B8] truncate leading-tight mt-0.5">
             {m.sub}
           </span>
         </div>

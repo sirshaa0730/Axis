@@ -1,10 +1,12 @@
 <script lang="ts">
   import { activeAnalysisData, openRiskDrivers } from '../../stores/analysisStore';
 
+  export let isResponsiveRow: boolean = false;
+
   $: m = $activeAnalysisData.metrics;
 </script>
 
-<div class="flex flex-col justify-between gap-2 h-full w-[170px] lg:w-[190px] shrink-0 font-mono select-none">
+<div class={isResponsiveRow ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5 w-full font-mono select-none" : "flex flex-col justify-between gap-2.5 h-full w-full font-mono select-none"}>
   <!-- 1. People Affected -->
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <!-- svelte-ignore a11y-no-static-element-interactions -->

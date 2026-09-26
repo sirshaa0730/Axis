@@ -1,4 +1,4 @@
-﻿<script lang="ts">
+<script lang="ts">
   import AnalysisHeader from './AnalysisHeader.svelte';
   import SelectedIncidentCard from './SelectedIncidentCard.svelte';
   import AnalysisModeSelector from './AnalysisModeSelector.svelte';
@@ -10,34 +10,41 @@
   import RiskDriversModal from './RiskDriversModal.svelte';
 </script>
 
-<div class="relative w-full h-full flex flex-col justify-between p-3 sm:p-4 gap-2.5 overflow-hidden bg-[#020711]/40 backdrop-blur-[2px]">
+<div class="analysis-workspace relative w-full min-h-full flex flex-col p-3 sm:p-5 gap-3.5 bg-[#020711]/60 backdrop-blur-[2px] font-mono select-none">
   
   <!-- 1. Top Multi-Hazard Analysis Header -->
-  <div class="shrink-0 w-full">
+  <header class="analysis-header-section shrink-0 w-full">
     <AnalysisHeader />
-  </div>
+  </header>
 
   <!-- 2. Selected Incident + Analysis Mode Selector Row -->
-  <div class="shrink-0 w-full grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-3 items-end">
+  <section class="analysis-controls-section shrink-0 w-full grid grid-cols-1 lg:grid-cols-[290px_1fr] gap-3 items-end">
     <SelectedIncidentCard />
     <AnalysisModeSelector />
-  </div>
+  </section>
 
-  <!-- 3. Center Geospatial Analysis Hero Stage + Metrics Strip -->
-  <div class="flex-1 flex flex-col md:flex-row gap-3 min-h-0 overflow-hidden relative">
-    <!-- Center: Interactive Geospatial Risk Map -->
-    <div class="flex-1 h-full min-h-[280px]">
-      <AnalysisMapHero />
+  <!-- 3. Center Geospatial Hero Map & Key Metrics Section -->
+  <section class="analysis-map-section w-full">
+    <div class="grid grid-cols-1 xl:grid-cols-[1fr_195px] gap-3.5 h-[clamp(440px,52vh,620px)]">
+      <!-- Dedicated Map Container -->
+      <div class="map-container relative w-full h-full min-h-[420px] rounded-2xl bg-[#030914] border border-white/10 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.7)]">
+        <AnalysisMapHero />
+      </div>
+
+      <!-- Right: Vertical Metrics Strip (6 Compact KPI Cards matching map height) -->
+      <div class="metrics-strip-container hidden xl:flex h-full">
+        <AnalysisMetricsStrip />
+      </div>
     </div>
 
-    <!-- Right: Vertical Metrics Strip (6 Compact KPI Cards) -->
-    <div class="shrink-0 flex h-full">
-      <AnalysisMetricsStrip />
+    <!-- Responsive metrics for screen sizes below xl breakpoint -->
+    <div class="metrics-strip-mobile xl:hidden pt-3 w-full">
+      <AnalysisMetricsStrip isResponsiveRow={true} />
     </div>
-  </div>
+  </section>
 
-  <!-- 4. Bottom 3 Analytical & Forecast Panels -->
-  <div class="shrink-0 w-full grid grid-cols-1 md:grid-cols-3 gap-3">
+  <!-- 4. Analytical & Forecast Insights Grid (Follows BELOW the map, pure siblings) -->
+  <section class="analysis-insights-grid w-full grid grid-cols-1 md:grid-cols-3 gap-3.5 pb-4">
     <!-- Panel 1: Impact Projection (Dual Line Chart) -->
     <ImpactProjectionChart />
 
@@ -46,7 +53,7 @@
 
     <!-- Panel 3: Infrastructure Impact (Radial Ring Donut & Counts) -->
     <InfrastructureImpactDonut />
-  </div>
+  </section>
 
   <!-- Progressive Disclosure: Explainable Risk Drivers Modal -->
   <RiskDriversModal />

@@ -39,7 +39,7 @@
         </div>
       {:else if $activeNavSection === 'analysis'}
         <!-- Analysis Multi-Hazard Intelligence Workstation View -->
-        <div class="absolute inset-0 z-10 flex flex-col overflow-hidden">
+        <div class="absolute inset-0 z-10 flex flex-col overflow-y-auto overflow-x-hidden">
           <AnalysisView />
         </div>
       {:else}

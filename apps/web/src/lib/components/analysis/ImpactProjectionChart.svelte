@@ -58,22 +58,22 @@
   </div>
 
   <!-- Key Metrics Row -->
-  <div class="flex items-center justify-between py-2 border-b border-white/5">
+  <div class="flex items-center justify-between flex-wrap gap-2 py-2 border-b border-white/5">
     <div class="flex items-center gap-2">
       <span class="text-base font-bold text-white tracking-tight">{proj.estimatedAffected}</span>
       <span class="text-[9px] text-[#8BA1B8] leading-tight">Estimated<br/>Affected</span>
     </div>
 
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-1.5">
       <span class="text-xs font-bold text-red-400">{proj.increasePct}</span>
       <span class="text-[8px] text-[#8BA1B8] leading-tight">Increase vs<br/>Current</span>
     </div>
 
     <div>
-      <span class="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider {
+      <span class="px-2 py-0.5 rounded text-[8.5px] font-bold uppercase tracking-wider {
         proj.riskTrend === 'HIGH' ? 'bg-red-500/20 text-red-400 border border-red-500/40' : 'bg-amber-500/20 text-amber-400 border border-amber-500/40'
       }">
-        {proj.riskTrend} Risk Trend
+        {proj.riskTrend} Risk
       </span>
     </div>
   </div>
