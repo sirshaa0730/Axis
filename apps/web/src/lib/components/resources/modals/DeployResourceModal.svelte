@@ -21,7 +21,13 @@
   function handleSubmit() {
     deployResource(targetResourceId, destination, operation, priority);
   }
+
+  function handleKeydown(e: KeyboardEvent) {
+    if (e.key === 'Escape') isDeployModalOpen.set(false);
+  }
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
 
 {#if $isDeployModalOpen}
   <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md select-none animate-fadeIn">

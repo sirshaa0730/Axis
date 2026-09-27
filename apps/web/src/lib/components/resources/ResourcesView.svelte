@@ -64,18 +64,30 @@
           </div>
         </div>
       </div>
-    {:else if $activeResourcesMode === 'assets'}
-      <AssetsEquipmentView />
-    {:else if $activeResourcesMode === 'supplies'}
-      <SuppliesLogisticsView />
-    {:else if $activeResourcesMode === 'personnel'}
-      <PersonnelView />
-    {:else if $activeResourcesMode === 'facilities'}
-      <FacilitiesView />
-    {:else if $activeResourcesMode === 'supply_chain'}
-      <SupplyChainView />
-    {:else if $activeResourcesMode === 'requests'}
-      <ResourceRequestsView />
+    {:else}
+      <div class="flex flex-col gap-3">
+        <!-- Operational Layer Geographic Map (Specific to Active Tab & Hazard Theatre) -->
+        <div class="w-full h-[420px] min-h-[420px] shrink-0">
+          <ResourceDeploymentMap />
+        </div>
+
+        <!-- Tab Subview Content -->
+        <div class="flex-1 min-h-0">
+          {#if $activeResourcesMode === 'assets'}
+            <AssetsEquipmentView />
+          {:else if $activeResourcesMode === 'supplies'}
+            <SuppliesLogisticsView />
+          {:else if $activeResourcesMode === 'personnel'}
+            <PersonnelView />
+          {:else if $activeResourcesMode === 'facilities'}
+            <FacilitiesView />
+          {:else if $activeResourcesMode === 'supply_chain'}
+            <SupplyChainView />
+          {:else if $activeResourcesMode === 'requests'}
+            <ResourceRequestsView />
+          {/if}
+        </div>
+      </div>
     {/if}
   </div>
 
