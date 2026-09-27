@@ -1,9 +1,9 @@
 <script lang="ts">
-  import AxisCore3D from '../axis/AxisCore3D.svelte';
+  import AxisCoreWebGL from './AxisCoreWebGL.svelte';
 
   export let size: 'sm' | 'md' | 'lg' = 'lg';
   export let interactive: boolean = true;
   export let animateActivation: boolean = true;
 </script>
 
-<AxisCore3D {size} {interactive} {animateActivation} />
+<AxisCoreWebGL {size} {interactive} {animateActivation} />

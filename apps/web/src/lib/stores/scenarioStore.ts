@@ -318,7 +318,7 @@ export function applyScenarioToResponse() {
     scenarioName,
     `Simulated Risk ${riskScore}/100 (Δ${riskDelta > 0 ? '+' : ''}${riskDelta}) pushed to Response directives pipeline`,
     'warning',
-    'JARVIS-AI'
+    'AXIS-AI'
   );
 
   activeNavSection.set('response');

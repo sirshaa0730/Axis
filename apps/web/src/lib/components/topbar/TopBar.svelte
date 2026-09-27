@@ -7,7 +7,7 @@
     isProcessingCommand,
     activeStage,
     stageProgress,
-    openJarvisCentral,
+    openAxisCentral,
     submitCommand
   } from '../../stores/commandStore';
 
@@ -25,18 +25,18 @@
       submitCommand(inputVal);
       inputVal = '';
     } else {
-      openJarvisCentral('LISTENING');
+      openAxisCentral('LISTENING');
     }
   }
 </script>
 
 <header class="relative z-40 flex items-center justify-between px-6 py-2 bg-[#020711]/85 backdrop-blur-xl border-b border-white/10 select-none">
-  <!-- Left: JARVIS Emblem & Title -->
+  <!-- Left: AXIS Emblem & Title -->
   <div class="flex items-center gap-3.5">
     <button
-      on:click={() => openJarvisCentral('IDLE')}
+      on:click={() => openAxisCentral('IDLE')}
       class="relative flex items-center justify-center w-10 h-10 rounded-full border border-[#00E5FF]/50 bg-[#061425]/80 shadow-[0_0_20px_rgba(0,229,255,0.4)] hover:scale-105 transition-transform cursor-pointer"
-      title="Click to Activate JARVIS Central Core"
+      title="Click to Activate AXIS Central Core"
     >
       <div class="absolute inset-1 rounded-full border border-[#3D7CFF]/60 border-t-[#00E5FF] animate-spin" style="animation-duration: 5s;"></div>
       <div class="w-3.5 h-3.5 rounded-full bg-gradient-to-tr from-[#00E5FF] to-[#8B5CFF] shadow-[0_0_10px_#00E5FF]"></div>
@@ -45,7 +45,7 @@
     <div>
       <div class="flex items-center gap-2">
         <h1 class="text-xl font-bold tracking-[0.18em] text-white font-mono drop-shadow-[0_0_12px_rgba(0,229,255,0.6)]">
-          JARVIS
+          AXIS
         </h1>
         <span class="text-[9px] uppercase font-mono px-1.5 py-0.2 rounded bg-[#00E5FF]/15 text-[#00E5FF] border border-[#00E5FF]/40 tracking-widest font-bold">
           v2.4
@@ -63,9 +63,9 @@
       
       <!-- Audio Waveform / Pulsing Indicator (Clickable to open voice central mode) -->
       <button
-        on:click={() => openJarvisCentral('LISTENING')}
+        on:click={() => openAxisCentral('LISTENING')}
         class="flex items-center gap-0.5 mr-3 cursor-pointer hover:opacity-80"
-        title="Open JARVIS Voice Assistant"
+        title="Open AXIS Voice Assistant"
       >
         <span class="w-0.5 h-3 bg-[#00E5FF] rounded-full animate-pulse" style="animation-duration: 0.8s;"></span>
         <span class="w-0.5 h-4.5 bg-[#3D7CFF] rounded-full animate-pulse" style="animation-duration: 0.6s;"></span>
@@ -86,7 +86,7 @@
           type="text"
           bind:value={inputVal}
           on:keydown={handleKeyDown}
-          placeholder='Ask JARVIS... e.g. "What happens if rainfall increases by 30%?"'
+          placeholder='Ask AXIS... e.g. "What happens if rainfall increases by 30%?"'
           class="flex-1 bg-transparent text-sm text-[#F0F6FC] placeholder-[#8BA1B8]/60 focus:outline-none font-mono tracking-wide"
         />
 

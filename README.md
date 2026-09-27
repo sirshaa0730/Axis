@@ -1,13 +1,13 @@
-# JARVIS — Planetary Emergency Intelligence System (Axis)
+# AXIS — Planetary Emergency Intelligence System
 
-> **JARVIS** is an operational planetary emergency command and intelligence system built for high-stakes environmental hazard response, disaster simulation, and geospatial monitoring.
+> **AXIS** is an operational planetary emergency command and intelligence system built for high-stakes environmental hazard response, disaster simulation, and geospatial monitoring.
 
 ---
 
 ## 🏛️ System Architecture (Locked Turborepo)
 
 ```
-JARVIS/
+AXIS/
 │
 ├── apps/
 │   ├── web/                         🌐 SvelteKit Frontend + Three.js / WebGL + HTML5 Canvas
@@ -47,7 +47,7 @@ JARVIS/
   - Lower-right Mini-Map with global locator reticle.
   - Bottom Temporal Timeline scrubber (`-24h` to `+72h`).
 
-### 2. Living AI Intelligence Core (JARVIS 3D WebGL)
+### 2. Living AI Intelligence Core (AXIS 3D WebGL)
 - **Heartbeat-Synchronized Kinetics**: Unified physiological double-beat waveform ($40\text{ BPM}$ resting to $77\text{ BPM}$ acceleration).
 - **Dynamic State Engine**: `IDLE`, `LISTENING`, `THINKING`, `ANALYSING`, `SIMULATING`, `RESPONDING`.
 - **Gaussian Shockwave Propagation**: Core pulses propagate outward radially, driving kinetic surges across surrounding orbital gimbals and particle rings.

@@ -1,1 +1,0 @@
-﻿# JARVIS verification module

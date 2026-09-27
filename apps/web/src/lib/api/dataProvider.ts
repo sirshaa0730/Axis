@@ -1,12 +1,12 @@
 /**
- * JARVIS Data Provider Layer
+ * AXIS Data Provider Layer
  * 
  * Clean normalization pipeline:
  * REAL API (FastAPI backend / Live Feeds)
  *   ↓ (fallback if offline)
  * MOCK DATA PROVIDER
  *   ↓
- * NORMALIZED JARVIS DATA MODEL
+ * NORMALIZED AXIS DATA MODEL
  *   ↓
  * SVELTEKIT STORES / UI
  */

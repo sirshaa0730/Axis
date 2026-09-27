@@ -1,7 +1,7 @@
 {
-    "name":  "jarvis-monorepo",
+    "name":  "axis-monorepo",
     "private":  true,
-    "description":  "JARVIS â€” Planetary Emergency Intelligence System",
+    "description":  "AXIS — Planetary Emergency Intelligence System",
     "workspaces":  [
                        "apps/*",
                        "packages/*"
