@@ -23,9 +23,14 @@
   import IncidentSimulateModal from '$components/incidents/modals/IncidentSimulateModal.svelte';
   import IncidentPlanModal from '$components/incidents/modals/IncidentPlanModal.svelte';
   import UploadDataModal from '$components/command/UploadDataModal.svelte';
-  import { selectedIncident } from '$stores/incidentStore';
+  import { selectedIncident, syncIncidentsFromBackend } from '$stores/incidentStore';
   import { isAxisCentralActive } from '$stores/commandStore';
   import { activeNavSection } from '$stores/systemStore';
+  import { onMount } from 'svelte';
+
+  onMount(() => {
+    syncIncidentsFromBackend();
+  });
 </script>
 
 <div class="flex flex-col w-screen h-screen overflow-hidden bg-[#020711] text-[#F0F6FC]">
