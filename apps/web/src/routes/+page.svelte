@@ -17,6 +17,8 @@
   import ScenariosView from '$components/scenarios/ScenariosView.svelte';
   import ResponseView from '$components/response/ResponseView.svelte';
   import ResourcesView from '$components/resources/ResourcesView.svelte';
+  import CommunicationsView from '$components/communications/CommunicationsView.svelte';
+  import HistoryView from '$components/history/HistoryView.svelte';
   import { selectedIncident } from '$stores/incidentStore';
   import { isJarvisCentralActive } from '$stores/commandStore';
   import { activeNavSection } from '$stores/systemStore';
@@ -59,6 +61,16 @@
         <!-- Resource & Logistics Command Workstation View -->
         <div class="absolute inset-0 z-10 flex flex-col overflow-y-auto overflow-x-hidden">
           <ResourcesView />
+        </div>
+      {:else if $activeNavSection === 'comms'}
+        <!-- Communications Command Center Workstation View -->
+        <div class="absolute inset-0 z-10 flex flex-col overflow-y-auto overflow-x-hidden">
+          <CommunicationsView />
+        </div>
+      {:else if $activeNavSection === 'history'}
+        <!-- Planetary Memory & Incident Replay Workstation View -->
+        <div class="absolute inset-0 z-10 flex flex-col overflow-y-auto overflow-x-hidden">
+          <HistoryView />
         </div>
       {:else}
         <!-- 3D Interactive WebGL Globe (Hero Element) -->

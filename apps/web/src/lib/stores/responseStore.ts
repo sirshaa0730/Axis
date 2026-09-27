@@ -15,6 +15,8 @@ import type {
   ResponseAuditEntry
 } from '../types/response';
 import { responseDatabase, floodResponseData } from '../mock/response/responseDatabase';
+import { selectedIncident } from './incidentStore';
+import { recordHistoryEvent } from './historyStore';
 
 // Mode Navigation
 export const activeResponseMode = writable<ResponseMode>('overview');
@@ -22,6 +24,22 @@ export const activeResponseMode = writable<ResponseMode>('overview');
 // Active Hazard & Data Package
 export const activeResponseHazard = writable<string>('flood');
 export const currentResponsePackage = writable(floodResponseData);
+
+// Automatically synchronize active response hazard when selectedIncident changes globally
+selectedIncident.subscribe((inc) => {
+  if (!inc) return;
+  const currentHazard = get(activeResponseHazard);
+  let targetHazard = 'flood';
+  if (inc.type === 'cyclone') targetHazard = 'cyclone';
+  else if (inc.type === 'wildfire') targetHazard = 'wildfire';
+  else if (inc.type === 'earthquake') targetHazard = 'earthquake';
+  else if (inc.type === 'compound') targetHazard = 'multi_hazard';
+  else if (inc.type === 'flood') targetHazard = 'flood';
+
+  if (currentHazard !== targetHazard) {
+    setResponseHazard(targetHazard);
+  }
+});
 
 // Priorities & Filtering
 export const activePriorityFilter = writable<'ALL' | PrioritySeverity>('ALL');
@@ -293,6 +311,14 @@ export function deployTeam(data: {
   }));
 
   addAuditEntry(`Deployed team ${data.teamCode} to ${data.destination}`, 'success');
+  recordHistoryEvent(
+    'response',
+    `Deployed Tactical Team ${data.teamCode}`,
+    data.destination,
+    `Mission: ${data.mission} (${data.personnel || 24} personnel)`,
+    'success',
+    'TACTICAL-OPS'
+  );
   isDeployTeamModalOpen.set(false);
 }
 
@@ -351,6 +377,14 @@ export function allocateResource(resourceId: string, newDeployed: number) {
     });
   });
   addAuditEntry(`Updated resource allocation for [${resourceId}] to ${newDeployed}`, 'info');
+  recordHistoryEvent(
+    'resources',
+    `Resource Allocation Updated: ${resourceId}`,
+    'Theater Depot',
+    `Deployed quantity set to ${newDeployed}`,
+    'info',
+    'LOGISTICS-LEAD'
+  );
 }
 
 // Execute Upcoming Operation
@@ -387,6 +421,14 @@ export function broadcastEmergencyAlert(data: {
   addAuditEntry(
     `CAP Emergency Alert Broadcasted via [${data.channels.join(', ')}] to ${data.targetRegion}`,
     'critical'
+  );
+  recordHistoryEvent(
+    'comms',
+    `CAP Emergency Alert Broadcasted`,
+    data.targetRegion,
+    `Channels: ${data.channels.join(', ')}`,
+    'critical',
+    'CIVIL-DEFENSE'
   );
   isSendAlertModalOpen.set(false);
 }
